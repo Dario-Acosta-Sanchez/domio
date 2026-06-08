@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Domio — Electrodomésticos y asesoramiento real, Córdoba</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { colors: { neutral: {
+    200:'#dde1e7', 300:'#b9c0cb', 400:'#8b94a3', 500:'#646d7c', 700:'#2a313e', 900:'#171b24'
+  } } } } }
+</script>
+<style>
+:root{
+  --bg:#f2f4f7; --card:#ffffff; --line:#e1e6ed;
+  --ink:#1c2230; --ink-soft:#5b6577;
+  --teal:#0e7490; --teal2:#155e75;
+  --lime:#84cc16; --lime2:#65a30d;
+  --coral:#fb7185;
+}
+*{font-family:'Hanken Grotesk',sans-serif}
+h1,h2,h3{font-family:'Familjen Grotesk',sans-serif;letter-spacing:-.02em;font-weight:700}
+body{background:var(--bg);color:var(--ink)}
+.glass{background:rgba(255,255,255,.7);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.8);box-shadow:0 6px 24px -16px rgba(28,34,48,.18)}
+.teal{color:var(--teal)}
+.teal-bg{background:var(--teal)}
+.lime{color:var(--lime2)}
+.btn-primary{background:var(--ink);color:#fff;font-weight:700;transition:all .2s;border-radius:10px;padding:14px 28px;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--teal2);transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(14,116,144,.4)}
+.btn-ghost{border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:13px 27px;font-weight:600;transition:all .2s;background:#fff}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;transition:all .3s;box-shadow:0 4px 22px -16px rgba(28,34,48,.12)}
+.card:hover{border-color:var(--teal);transform:translateY(-4px);box-shadow:0 18px 38px -18px rgba(14,116,144,.22)}
+.opt-btn{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;transition:all .2s;cursor:pointer;font-weight:600;color:var(--ink-soft);text-align:left}
+.opt-btn:hover{border-color:var(--teal);color:var(--ink)}
+.opt-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.fade-in{animation:fadein .45s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.eco-tag{display:inline-flex;align-items:center;gap:.35rem;font-weight:800;font-size:.72rem;letter-spacing:.04em;border-radius:7px;padding:.25rem .55rem}
+.eco-A{background:#dcfce7;color:#15803d}
+.eco-B{background:#ecfccb;color:#4d7c0f}
+.eco-C{background:#fef9c3;color:#854d0e}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#c7cedb;border-radius:8px}
+
+/* BENTO de categorías — tiles que se "abren" al hover */
+.bento{display:grid;gap:1rem}
+@media(min-width:768px){.bento{grid-template-columns:repeat(6,1fr);grid-auto-rows:150px}
+  .bento .b-xl{grid-column:span 3;grid-row:span 2}
+  .bento .b-w{grid-column:span 3}
+  .bento .b-n{grid-column:span 2}}
+.btile{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--card);padding:1.4rem;display:flex;flex-direction:column;justify-content:flex-end;transition:all .4s cubic-bezier(.2,.8,.2,1)}
+.btile:hover{transform:translateY(-5px);box-shadow:0 20px 44px -18px rgba(28,34,48,.28)}
+.btile .blayer{position:absolute;inset:0;opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:1.4rem;background-size:cover;background-position:center}
+.btile:hover .blayer{opacity:1}
+.btile .blayer::before{content:"";position:absolute;inset:0;background:linear-gradient(0deg, rgba(15,23,33,.86) 5%, rgba(15,23,33,.25) 60%, transparent 100%)}
+.btile .blayer p{position:relative;color:#fff;font-weight:600;font-size:.9rem}
+.btile .bdefault{position:relative;transition:opacity .3s}
+.btile:hover .bdefault{opacity:0}
+.bemoji{font-size:2rem;margin-bottom:.4rem}
+
+/* SLIDER de financiación */
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:9999px;background:var(--line);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:9999px;background:var(--ink);cursor:pointer;border:4px solid #fff;box-shadow:0 4px 14px -2px rgba(28,34,48,.4)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:9999px;background:var(--ink);cursor:pointer;border:4px solid #fff;box-shadow:0 4px 14px -2px rgba(28,34,48,.4)}
+.month-btn{border:1px solid var(--line);border-radius:10px;padding:10px 0;font-weight:700;text-align:center;cursor:pointer;transition:all .2s;background:#fff;color:var(--ink-soft)}
+.month-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- NAV -->
+<nav class="fixed top-0 inset-x-0 z-50 glass">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl teal-bg flex items-center justify-center font-black text-white text-sm" style="font-family:'Familjen Grotesk',sans-serif">D</div>
+      <span class="font-bold text-xl tracking-tight" style="font-family:'Familjen Grotesk',sans-serif">Domio</span>
+    </div>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-500">
+      <a href="#categorias" class="hover:text-[var(--ink)] transition">Catálogo</a>
+      <a href="#encuentra" class="hover:text-[var(--ink)] transition">Encuentra el tuyo</a>
+      <a href="#financiacion" class="hover:text-[var(--ink)] transition">Financiación</a>
+      <a href="#opiniones" class="hover:text-[var(--ink)] transition">Opiniones</a>
+    </div>
+    <a href="#encuentra" class="btn-primary text-sm">Encuentra tu aparato →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="pt-40 pb-20 px-6 relative overflow-hidden">
+  <div class="absolute inset-0 -z-10" style="background:radial-gradient(circle at 14% 22%, rgba(14,116,144,.08), transparent 45%), radial-gradient(circle at 88% 72%, rgba(132,204,22,.10), transparent 50%);"></div>
+  <div class="max-w-5xl mx-auto text-center relative">
+    <span class="inline-block glass rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide text-[var(--ink-soft)] mb-6">🔌 Tienda y servicio técnico de barrio · Córdoba capital</span>
+    <h1 class="text-4xl md:text-6xl leading-tight tracking-tight mb-6">
+      Te ayudamos a elegir el electrodoméstico <span class="teal italic" style="font-family:'Familjen Grotesk',sans-serif">que de verdad necesitas</span>
+    </h1>
+    <p class="text-lg text-[var(--ink-soft)] max-w-2xl mx-auto mb-10">
+      Nada de catálogos interminables ni vendedores a comisión empujándote la gama más cara. Te hacemos las preguntas justas, te enseñamos lo que encaja con tu casa y tu presupuesto, y si hace falta, lo financiamos sin letra pequeña.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4 mb-12">
+      <a href="#encuentra" class="btn-primary">Encuentra tu electrodoméstico</a>
+      <a href="#categorias" class="btn-ghost">Ver catálogo por categorías</a>
+    </div>
+    <div class="flex flex-wrap justify-center gap-8 text-sm text-[var(--ink-soft)]">
+      <div class="flex items-center gap-2">🛠️ servicio técnico propio, sin intermediarios</div>
+      <div class="flex items-center gap-2"><span class="teal font-bold">★ 4.8</span> valoración media (241 reseñas)</div>
+      <div class="flex items-center gap-2">🚚 entrega e instalación incluidas en Córdoba capital</div>
+    </div>
+  </div>
+</header>
+
+<!-- CATÁLOGO — BENTO -->
+<section id="categorias" class="py-20 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="teal font-bold uppercase tracking-widest text-sm">Catálogo por categorías</span>
+      <h2 class="text-3xl md:text-5xl mt-2">Pasa el cursor y mira lo que tenemos</h2>
+    </div>
+    <div class="bento">
+      <a href="#" class="btile b-xl">
+        <div class="blayer" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1200&q=70')"><p>Hornos, vitrocerámicas, campanas y frigoríficos americanos — las piezas que más se notan en una cocina nueva.</p></div>
+        <div class="bdefault"><div class="bemoji">🍳</div><h3 class="font-bold text-xl">Cocina</h3><p class="text-[var(--ink-soft)] text-sm">Hornos · vitrocerámicas · campanas · frigoríficos</p></div>
+      </a>
+      <a href="#" class="btile">
+        <div class="blayer" style="background-image:url('https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=900&q=70')"><p>Lavadoras de carga frontal y secadoras por bomba de calor, clase A.</p></div>
+        <div class="bdefault"><div class="bemoji">🧺</div><h3 class="font-bold text-lg">Lavado y secado</h3><p class="text-[var(--ink-soft)] text-sm">Lavadoras · secadoras · lavavajillas</p></div>
+      </a>
+      <a href="#" class="btile">
+        <div class="blayer" style="background-image:url('https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?auto=format&fit=crop&w=900&q=70')"><p>Frigoríficos combi, congeladores verticales y vinotecas para cualquier tamaño de cocina.</p></div>
+        <div class="bdefault"><div class="bemoji">❄️</div><h3 class="font-bold text-lg">Frío</h3><p class="text-[var(--ink-soft)] text-sm">Frigoríficos · congeladores · vinotecas</p></div>
+      </a>
+      <a href="#" class="btile b-w">
+        <div class="blayer" style="background-image:url('https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?auto=format&fit=crop&w=1200&q=70')"><p>Aires acondicionados split, calefacción por bomba de calor y purificadores — instalación incluida en toda Córdoba capital.</p></div>
+        <div class="bdefault"><div class="bemoji">🌬️</div><h3 class="font-bold text-lg">Climatización</h3><p class="text-[var(--ink-soft)] text-sm">Aire acondicionado · calefacción · purificadores</p></div>
+      </a>
+      <a href="#" class="btile">
+        <div class="blayer" style="background-image:url('https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=900&q=70')"><p>Robots aspiradores, batidoras, cafeteras y todo lo que hace más cómodo el día a día.</p></div>
+        <div class="bdefault"><div class="bemoji">🧹</div><h3 class="font-bold text-lg">Pequeño electro</h3><p class="text-[var(--ink-soft)] text-sm">Robots · cafeteras · batidoras · planchas</p></div>
+      </a>
+      <a href="#" class="btile">
+        <div class="blayer" style="background-image:url('https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=900&q=70')"><p>Televisores 4K, barras de sonido y proyectores — instalación y configuración incluidas.</p></div>
+        <div class="bdefault"><div class="bemoji">📺</div><h3 class="font-bold text-lg">TV y sonido</h3><p class="text-[var(--ink-soft)] text-sm">Televisores · barras de sonido · proyectores</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ENCUENTRA TU ELECTRODOMÉSTICO -->
+<section id="encuentra" class="py-20 px-6">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-10">
+      <span class="lime font-bold uppercase tracking-widest text-sm">Asesor de compra</span>
+      <h2 class="text-3xl md:text-5xl mt-2">Tres preguntas y te decimos qué te conviene</h2>
+      <p class="text-[var(--ink-soft)] mt-3">Nada de gamificación: esto es justo lo que te preguntaríamos en tienda antes de recomendarte algo.</p>
+    </div>
+
+    <div class="card p-8 md:p-10">
+      <div id="finder-q1">
+        <p class="font-bold mb-4">1. ¿Qué necesitas reponer o añadir?</p>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <button class="opt-btn" onclick="finderPick(1,'cocina',this)">🍳 Algo de cocina (horno, vitro, campana...)</button>
+          <button class="opt-btn" onclick="finderPick(1,'lavado',this)">🧺 Lavadora, secadora o lavavajillas</button>
+          <button class="opt-btn" onclick="finderPick(1,'frio',this)">❄️ Frigorífico o congelador</button>
+          <button class="opt-btn" onclick="finderPick(1,'clima',this)">🌬️ Aire acondicionado o calefacción</button>
+        </div>
+      </div>
+
+      <div id="finder-q2" class="hidden mt-8 pt-8 border-t border-[var(--line)]">
+        <p class="font-bold mb-4">2. ¿Cuántas personas vivís en casa?</p>
+        <div class="grid sm:grid-cols-3 gap-3">
+          <button class="opt-btn" onclick="finderPick(2,'1-2',this)">🙂 1 - 2 personas</button>
+          <button class="opt-btn" onclick="finderPick(2,'3-4',this)">🙂🙂 3 - 4 personas</button>
+          <button class="opt-btn" onclick="finderPick(2,'5+',this)">🙂🙂🙂 5 o más</button>
+        </div>
+      </div>
+
+      <div id="finder-q3" class="hidden mt-8 pt-8 border-t border-[var(--line)]">
+        <p class="font-bold mb-4">3. ¿Qué te importa más a la hora de decidir?</p>
+        <div class="grid sm:grid-cols-3 gap-3">
+          <button class="opt-btn" onclick="finderPick(3,'precio',this)">💶 El precio más ajustado</button>
+          <button class="opt-btn" onclick="finderPick(3,'eficiencia',this)">🌱 Gastar lo menos posible de luz</button>
+          <button class="opt-btn" onclick="finderPick(3,'capacidad',this)">📦 La mayor capacidad posible</button>
+        </div>
+      </div>
+
+      <div id="finder-result" class="hidden mt-8 pt-8 border-t border-[var(--line)] fade-in">
+        <p class="text-xs uppercase tracking-widest font-bold text-[var(--ink-soft)] mb-3">Esto es lo que te recomendaríamos hoy</p>
+        <div class="flex items-start gap-4">
+          <span id="finder-emoji" class="text-4xl"></span>
+          <div>
+            <h3 id="finder-name" class="text-xl font-bold mb-1"></h3>
+            <p id="finder-desc" class="text-[var(--ink-soft)] mb-3"></p>
+            <div class="flex flex-wrap items-center gap-3">
+              <span id="finder-eco" class="eco-tag"></span>
+              <span id="finder-precio" class="font-bold teal"></span>
+            </div>
+          </div>
+        </div>
+        <button onclick="finderReset()" class="mt-6 text-sm font-semibold text-[var(--ink-soft)] hover:text-[var(--ink)] transition">↺ Volver a empezar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINANCIACIÓN -->
+<section id="financiacion" class="py-20 px-6">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-10">
+      <span class="teal font-bold uppercase tracking-widest text-sm">Sin letra pequeña</span>
+      <h2 class="text-3xl md:text-5xl mt-2">Simula tu pago a plazos</h2>
+      <p class="text-[var(--ink-soft)] mt-3">Mueve el precio, elige los meses, y mira lo que pagarías cada mes — sin intereses ocultos ni "consulta condiciones" al final.</p>
+    </div>
+
+    <div class="card p-8 md:p-10">
+      <label class="text-xs uppercase tracking-widest font-bold text-[var(--ink-soft)] block mb-3">Precio del electrodoméstico: <span id="fin-precio-label" class="text-[var(--ink)] font-bold">700 €</span></label>
+      <input type="range" id="fin-precio" min="150" max="2500" step="10" value="700" oninput="actualizarFinanciacion()">
+
+      <p class="text-xs uppercase tracking-widest font-bold text-[var(--ink-soft)] block mb-3 mt-8">¿En cuántos meses?</p>
+      <div class="grid grid-cols-4 gap-3 mb-8">
+        <div class="month-btn active" data-months="3" onclick="elegirMeses(this,3)">3</div>
+        <div class="month-btn" data-months="6" onclick="elegirMeses(this,6)">6</div>
+        <div class="month-btn" data-months="12" onclick="elegirMeses(this,12)">12</div>
+        <div class="month-btn" data-months="24" onclick="elegirMeses(this,24)">24</div>
+      </div>
+
+      <div class="glass rounded-2xl p-6 text-center">
+        <p class="text-xs uppercase tracking-widest text-[var(--ink-soft)] mb-1">Pagarías al mes</p>
+        <p id="fin-mensual" class="text-4xl font-bold teal" style="font-family:'Familjen Grotesk',sans-serif">233,33 €</p>
+        <p class="text-[var(--ink-soft)] text-sm mt-2">0% de interés en compras financiadas hasta 24 meses. Sin comisión de apertura.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPINIONES -->
+<section id="opiniones" class="py-20 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="lime font-bold uppercase tracking-widest text-sm">Lo que dicen nuestros clientes</span>
+      <h2 class="text-3xl md:text-5xl mt-2">Cuatro cifras y tres opiniones sinceras</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+      <div class="card p-6 text-center"><p class="text-3xl font-bold teal mb-1" style="font-family:'Familjen Grotesk',sans-serif">4.8 ★</p><p class="text-sm text-[var(--ink-soft)]">valoración media en Google</p></div>
+      <div class="card p-6 text-center"><p class="text-3xl font-bold teal mb-1" style="font-family:'Familjen Grotesk',sans-serif">+1.900</p><p class="text-sm text-[var(--ink-soft)]">instalaciones realizadas</p></div>
+      <div class="card p-6 text-center"><p class="text-3xl font-bold teal mb-1" style="font-family:'Familjen Grotesk',sans-serif">48h</p><p class="text-sm text-[var(--ink-soft)]">de media hasta la entrega</p></div>
+      <div class="card p-6 text-center"><p class="text-3xl font-bold teal mb-1" style="font-family:'Familjen Grotesk',sans-serif">2 años</p><p class="text-sm text-[var(--ink-soft)]">de garantía propia añadida</p></div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="card p-6">
+        <p class="text-[var(--ink)] mb-4">"Entré pensando en una lavadora básica y el de la tienda me preguntó cuántos somos en casa antes de enseñarme nada. Acabé con una más pequeña y más barata que la que yo había visto online. Eso no se ve en cualquier tienda."</p>
+        <p class="font-semibold text-sm" style="font-family:'Familjen Grotesk',sans-serif">— Patricia G. <span class="text-[var(--ink-soft)] font-normal not-italic">· barrio de Fátima</span></p>
+      </div>
+      <div class="card p-6">
+        <p class="text-[var(--ink)] mb-4">"El simulador de financiación no tenía trampa: lo que decía la web es justo lo que pagué cada mes. Y cuando el horno tuvo un fallo a los 14 meses, vino el técnico de la propia tienda, no una subcontrata."</p>
+        <p class="font-semibold text-sm" style="font-family:'Familjen Grotesk',sans-serif">— Joaquín R. <span class="text-[var(--ink-soft)] font-normal not-italic">· Ciudad Jardín</span></p>
+      </div>
+      <div class="card p-6">
+        <p class="text-[var(--ink)] mb-4">"Cambié el aire acondicionado de toda la casa y vinieron a instalarlo dos días después, dejándolo todo limpio. El presupuesto que me dieron fue el que pagué, sin sorpresas en la factura final."</p>
+        <p class="font-semibold text-sm" style="font-family:'Familjen Grotesk',sans-serif">— Beatriz N. <span class="text-[var(--ink-soft)] font-normal not-italic">· Sector Sur</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="py-20 px-6">
+  <div class="max-w-4xl mx-auto card p-12 text-center relative overflow-hidden">
+    <div class="absolute inset-0 -z-10" style="background:radial-gradient(circle at 22% 28%, rgba(14,116,144,.08), transparent 55%), radial-gradient(circle at 80% 76%, rgba(132,204,22,.10), transparent 55%);"></div>
+    <h2 class="text-3xl md:text-5xl mb-4">¿Hablamos antes de que compres nada?</h2>
+    <p class="text-[var(--ink-soft)] max-w-xl mx-auto mb-8">Pásate por la tienda o escríbenos lo que necesitas — te damos una recomendación honesta, presupuesto cerrado y, si hace falta, financiación sin letra pequeña.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="#encuentra" class="btn-primary">Encuentra tu electrodoméstico</a>
+      <a href="#financiacion" class="btn-ghost">Simular financiación</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 px-6 border-t border-neutral-700">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[var(--ink-soft)]">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg teal-bg flex items-center justify-center font-black text-white text-xs" style="font-family:'Familjen Grotesk',sans-serif">D</div>
+      <span class="font-semibold text-[var(--ink)]" style="font-family:'Familjen Grotesk',sans-serif">Domio</span> — electrodomésticos y servicio técnico · Córdoba
+    </div>
+    <p>Avenida de Granada, 58 · L-S de 10:00 a 20:00</p>
+    <p>© 2026 Domio. Te ayudamos a elegir, no a gastar de más.</p>
+  </div>
+</footer>
+
+<script>
+// ---------- ASESOR DE COMPRA (3 preguntas) ----------
+const finderState = {};
+const finderProducts = {
+  'cocina|1-2|precio':       { emoji:'🍳', name:'Horno multifunción compacto 45L', desc:'El equilibrio justo entre precio y prestaciones para una cocina de uno o dos. Limpieza por catálisis y temporizador digital.', eco:'B', precio:'desde 249 €' },
+  'cocina|1-2|eficiencia':   { emoji:'🍳', name:'Vitrocerámica de inducción 2 zonas', desc:'La inducción calienta solo lo que pones encima — para un hogar pequeño es la diferencia entre notar o no notar la factura de la luz.', eco:'A', precio:'desde 329 €' },
+  'cocina|1-2|capacidad':    { emoji:'🍳', name:'Frigorífico combi 180cm', desc:'Más espacio del que parece necesitar una pareja, pero rentable a medio plazo y sin agobios en la compra semanal.', eco:'B', precio:'desde 459 €' },
+  'cocina|3-4|precio':       { emoji:'🍳', name:'Horno + vitro vitrocerámica, pack combinado', desc:'Comprando ambos juntos, el descuento de pack hace que salga más a cuenta que renovarlos por separado.', eco:'B', precio:'desde 589 €' },
+  'cocina|3-4|eficiencia':   { emoji:'🍳', name:'Horno con función Eco y vitro de inducción', desc:'Para una familia que cocina a diario, el ahorro de la inducción se nota en la factura desde el primer mes.', eco:'A', precio:'desde 699 €' },
+  'cocina|3-4|capacidad':    { emoji:'🍳', name:'Horno XXL 70L + campana de gran potencia', desc:'Para quien cocina para más de cuatro a menudo: bandejas grandes y extracción de humos sin esfuerzo.', eco:'C', precio:'desde 779 €' },
+  'cocina|5+|precio':        { emoji:'🍳', name:'Pack cocina completa gama media', desc:'Horno, vitro y campana de una misma marca, con 18 meses de garantía añadida y precio cerrado en pack.', eco:'B', precio:'desde 989 €' },
+  'cocina|5+|eficiencia':    { emoji:'🍳', name:'Pack cocina inducción + horno clase A', desc:'Para una casa grande que cocina mucho, este es el pack que más se nota en la factura a final de mes.', eco:'A', precio:'desde 1.190 €' },
+  'cocina|5+|capacidad':     { emoji:'🍳', name:'Horno doble + frigorífico americano XXL', desc:'Cuando cocinas para muchos a diario, tener dos cámaras de horno cambia por completo el ritmo en la cocina.', eco:'C', precio:'desde 1.450 €' },
+
+  'lavado|1-2|precio':       { emoji:'🧺', name:'Lavadora carga frontal 7kg', desc:'Justo lo que necesita un hogar de una o dos personas — sin pagar de más por una capacidad que no vas a usar.', eco:'B', precio:'desde 339 €' },
+  'lavado|1-2|eficiencia':   { emoji:'🧺', name:'Lavadora 7kg clase A, motor inverter', desc:'El motor inverter es silencioso y dura más — y en clase A notarás el cambio en agua y luz desde el primer recibo.', eco:'A', precio:'desde 439 €' },
+  'lavado|1-2|capacidad':    { emoji:'🧺', name:'Lavadora-secadora 2 en 1, 8kg', desc:'Para pisos sin tendedero: lava y seca en el mismo tambor, ahorrando el espacio de un segundo aparato.', eco:'C', precio:'desde 549 €' },
+  'lavado|3-4|precio':       { emoji:'🧺', name:'Lavadora 8kg + secadora por condensación', desc:'El pack más pedido por familias de tamaño medio — entregado e instalado el mismo día.', eco:'B', precio:'desde 679 €' },
+  'lavado|3-4|eficiencia':   { emoji:'🧺', name:'Lavadora 8kg + secadora por bomba de calor', desc:'La bomba de calor consume bastante menos que una secadora normal — para uso diario, se amortiza en poco más de un año.', eco:'A', precio:'desde 899 €' },
+  'lavado|3-4|capacidad':    { emoji:'🧺', name:'Lavadora 9kg + lavavajillas 14 servicios', desc:'Pensado para una rutina familiar exigente: menos lavados a la semana, más capacidad en cada uno.', eco:'B', precio:'desde 769 €' },
+  'lavado|5+|precio':        { emoji:'🧺', name:'Lavadora 10kg de carga, gama media', desc:'La capacidad grande sin pagar el sobreprecio de la gama alta — perfecta para colada diaria de una casa numerosa.', eco:'C', precio:'desde 549 €' },
+  'lavado|5+|eficiencia':    { emoji:'🧺', name:'Lavadora 10kg clase A + secadora bomba de calor', desc:'En una casa con mucha colada, este combo es el que más impacto tiene en la factura mensual de luz y agua.', eco:'A', precio:'desde 1.090 €' },
+  'lavado|5+|capacidad':     { emoji:'🧺', name:'Lavadora 12kg de carga industrial-doméstica', desc:'Para cuando la colada nunca para: menos ciclos a la semana, más ropa por lavado.', eco:'C', precio:'desde 899 €' },
+
+  'frio|1-2|precio':         { emoji:'❄️', name:'Frigorífico una puerta 160cm', desc:'El tamaño justo para uno o dos, sin ocupar más cocina de la necesaria ni gastar de más en luz.', eco:'B', precio:'desde 269 €' },
+  'frio|1-2|eficiencia':     { emoji:'❄️', name:'Frigorífico una puerta clase A, 160cm', desc:'Para un hogar pequeño, la diferencia de clase energética se nota proporcionalmente más en la factura.', eco:'A', precio:'desde 349 €' },
+  'frio|1-2|capacidad':      { emoji:'❄️', name:'Frigorífico combi 190cm con zona fresca', desc:'Más espacio del que parece necesitar una pareja — útil si haces compra grande cada dos semanas.', eco:'B', precio:'desde 469 €' },
+  'frio|3-4|precio':         { emoji:'❄️', name:'Frigorífico combi 200cm, gama media', desc:'El tamaño que mejor encaja con una compra semanal de cuatro personas, sin ser excesivo.', eco:'B', precio:'desde 549 €' },
+  'frio|3-4|eficiencia':     { emoji:'❄️', name:'Frigorífico combi clase A con No Frost', desc:'No Frost evita la escarcha y el motor de bajo consumo se nota en el recibo a partir del segundo mes.', eco:'A', precio:'desde 669 €' },
+  'frio|3-4|capacidad':      { emoji:'❄️', name:'Frigorífico combi XL 203cm, 360L', desc:'Para quien hace compra grande y le gusta tener congelador holgado, sin llegar al formato americano.', eco:'C', precio:'desde 729 €' },
+  'frio|5+|precio':          { emoji:'❄️', name:'Frigorífico combi 210cm, gran capacidad', desc:'El que más veces recomendamos a familias numerosas que no quieren pagar el extra de un americano.', eco:'B', precio:'desde 759 €' },
+  'frio|5+|eficiencia':      { emoji:'❄️', name:'Frigorífico americano clase A, dispensador', desc:'En una casa grande, la clase A en un aparato que está encendido 24/7 es donde más se nota el ahorro anual.', eco:'A', precio:'desde 1.190 €' },
+  'frio|5+|capacidad':       { emoji:'❄️', name:'Frigorífico americano XXL + congelador vertical', desc:'Para cuando la nevera de toda la vida se queda corta: doble cámara y mucho margen para la compra mensual.', eco:'C', precio:'desde 1.690 €' },
+
+  'clima|1-2|precio':        { emoji:'🌬️', name:'Split 1×1, 2.000 frigorías, gama media', desc:'Para un dormitorio o salón pequeño — instalación incluida y sin obras mayores.', eco:'B', precio:'desde 459 € instalado' },
+  'clima|1-2|eficiencia':    { emoji:'🌬️', name:'Split 1×1 inverter, clase A++', desc:'El inverter ajusta la potencia en lugar de encender y apagar — en un piso pequeño se amortiza en un par de veranos.', eco:'A', precio:'desde 599 € instalado' },
+  'clima|1-2|capacidad':     { emoji:'🌬️', name:'Split 1×1, 3.000 frigorías + bomba de calor', desc:'Climatiza también en invierno — para quien quiere resolver frío y calor con un único aparato.', eco:'B', precio:'desde 749 € instalado' },
+  'clima|3-4|precio':        { emoji:'🌬️', name:'Split 1×2, dos unidades interiores', desc:'Cubre salón y dormitorio principal con una sola unidad exterior — instalación incluida.', eco:'B', precio:'desde 990 € instalado' },
+  'clima|3-4|eficiencia':    { emoji:'🌬️', name:'Split 1×2 inverter clase A++, modo noche', desc:'El modo noche reduce el consumo mientras duermes — la opción que más recomendamos para uso diario en familia.', eco:'A', precio:'desde 1.290 € instalado' },
+  'clima|3-4|capacidad':     { emoji:'🌬️', name:'Multisplit 1×3 + purificador de aire', desc:'Tres estancias climatizadas con una sola unidad exterior, más un purificador para los meses de polen.', eco:'B', precio:'desde 1.890 € instalado' },
+  'clima|5+|precio':         { emoji:'🌬️', name:'Multisplit 1×3, gama media', desc:'La opción más razonable para climatizar varias estancias sin disparar el presupuesto inicial.', eco:'C', precio:'desde 1.690 € instalado' },
+  'clima|5+|eficiencia':     { emoji:'🌬️', name:'Multisplit 1×4 inverter clase A++', desc:'Para una casa grande, el ahorro acumulado del inverter en cuatro unidades es donde más se nota a fin de año.', eco:'A', precio:'desde 2.690 € instalado' },
+  'clima|5+|capacidad':      { emoji:'🌬️', name:'Multisplit 1×4 + calefacción por bomba de calor', desc:'Resuelve frío y calor en toda la casa con un único sistema — la instalación más completa que ofrecemos.', eco:'B', precio:'desde 3.190 € instalado' },
+};
+
+function finderPick(step, value, btn){
+  finderState['s'+step] = value;
+  const group = btn.parentElement;
+  [...group.children].forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  if (step === 1){
+    document.getElementById('finder-q2').classList.remove('hidden');
+    document.getElementById('finder-q2').classList.add('fade-in');
+  }
+  if (step === 2){
+    document.getElementById('finder-q3').classList.remove('hidden');
+    document.getElementById('finder-q3').classList.add('fade-in');
+  }
+  if (step === 3){
+    const key = `${finderState.s1}|${finderState.s2}|${finderState.s3}`;
+    const p = finderProducts[key];
+    if (!p) return;
+    document.getElementById('finder-emoji').textContent = p.emoji;
+    document.getElementById('finder-name').textContent = p.name;
+    document.getElementById('finder-desc').textContent = p.desc;
+    const eco = document.getElementById('finder-eco');
+    eco.textContent = 'Etiqueta energética ' + p.eco;
+    eco.className = 'eco-tag eco-' + p.eco;
+    document.getElementById('finder-precio').textContent = p.precio;
+    const result = document.getElementById('finder-result');
+    result.classList.remove('hidden');
+    result.classList.remove('fade-in'); void result.offsetWidth; result.classList.add('fade-in');
+    result.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+}
+function finderReset(){
+  finderState.s1 = finderState.s2 = finderState.s3 = undefined;
+  ['finder-q2','finder-q3','finder-result'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('finder-q1').scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+// ---------- SIMULADOR DE FINANCIACIÓN ----------
+let mesesElegidos = 3;
+function elegirMeses(btn, meses){
+  document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  mesesElegidos = meses;
+  actualizarFinanciacion();
+}
+function actualizarFinanciacion(){
+  const precio = parseFloat(document.getElementById('fin-precio').value);
+  document.getElementById('fin-precio-label').textContent = precio.toLocaleString('es-ES') + ' €';
+  const mensual = precio / mesesElegidos;
+  document.getElementById('fin-mensual').textContent = mensual.toLocaleString('es-ES', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' €';
+}
+window.addEventListener('DOMContentLoaded', actualizarFinanciacion);
+</script>
+
+</body>
+</html>
